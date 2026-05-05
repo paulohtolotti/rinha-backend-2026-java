@@ -16,6 +16,8 @@ public class FraudController {
 
     @PostMapping(value = "/fraud-score")
     public ResponseEntity<FraudResponse> fraudScore(@RequestBody FraudRequest fraudRequest) {
+
+        System.out.println(fraudRequest.last_transaction());
         // Implementação de teste
         boolean approved = fraudRequest.transaction().amount() > 500 ? false : true;
         return ResponseEntity.ok(new FraudResponse(approved, 0.51));
