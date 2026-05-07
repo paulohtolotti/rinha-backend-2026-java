@@ -21,9 +21,9 @@ public class FraudService {
     }
 
     public FraudResponse fraudScore(FraudRequest request) {
-        double[] arr = vectorize(request);
+        float[] arr = vectorize(request);
         int i = searchService.numberOfFrauds(arr);
-        return new FraudResponse(false, 1.0);
+        return new FraudResponse(false, 1.0f);
     }
 
     /**

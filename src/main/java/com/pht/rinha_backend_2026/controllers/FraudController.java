@@ -26,19 +26,18 @@ public class FraudController {
 
         System.out.println(fraudRequest.last_transaction());
         // Implementação de teste
-        boolean approved = fraudRequest.transaction().amount() > 500 ? false : true;
-        return ResponseEntity.ok(new FraudResponse(approved, 0.51));
+        return ResponseEntity.ok(service.fraudScore(fraudRequest));
     }
 
     // Teste da normalização dos vetores
     @PostMapping(value = "/fraud-score/normalized")
     public ResponseEntity<String> normalizedVector(@RequestBody FraudRequest fraudRequest) {
 
-        double[] arr = service.vectorize(fraudRequest);
+        float[] arr = service.vectorize(fraudRequest);
         StringBuilder sb = new StringBuilder();
         sb.append("[");
 
-        for(double a : arr) {
+        for(float a : arr) {
             sb.append(a).append(",");
         }
         sb.deleteCharAt(sb.length() - 1);

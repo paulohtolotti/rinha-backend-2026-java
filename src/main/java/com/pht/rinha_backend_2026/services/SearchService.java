@@ -14,7 +14,7 @@ public class SearchService {
      * @param incomingTransaction Transação vinda do endpoint vetorizada
      * @return
      */
-    public int numberOfFrauds(double[] incomingTransaction) {
+    public int numberOfFrauds(float[] incomingTransaction) {
         return 1;
     }
 }
