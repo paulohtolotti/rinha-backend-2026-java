@@ -12,7 +12,7 @@ public class RinhaBackend2026Application {
 	public static void main(String[] args) throws IOException {
 		// Pré-processamento da aplicação
 		String datasetPath = "src/main/resources/static/references.json";
-		String vectorOut = "src/main/resources/static/vectors.f32";
+		String vectorOut = "src/main/resources/static/vectors.u8";
 		String labelOut = "src/main/resources/static/labels.u8";
 
 		JsonToBinaryConverter converter = new JsonToBinaryConverter();

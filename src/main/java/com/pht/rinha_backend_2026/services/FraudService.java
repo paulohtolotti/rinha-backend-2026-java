@@ -23,7 +23,9 @@ public class FraudService {
     public FraudResponse fraudScore(FraudRequest request) {
         float[] arr = vectorize(request);
         int i = searchService.numberOfFrauds(arr);
-        return new FraudResponse(false, 1.0f);
+        float fraudScore = (float) i / 5;
+        boolean approved = fraudScore < 0.6;
+        return new FraudResponse(approved, fraudScore);
     }
 
     /**
