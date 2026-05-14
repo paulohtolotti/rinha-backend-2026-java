@@ -19,7 +19,7 @@ services:
           memory: "30MB"
 
   api-1:
-    image: phpt/rinha-backend-2026:v3
+    image: phpt/rinha-backend-2026:v4
     networks:
       - backend
     healthcheck:
@@ -35,7 +35,7 @@ services:
           memory: "160MB"
 
   api-2:
-    image: phpt/rinha-backend-2026:v3
+    image: phpt/rinha-backend-2026:v4
     networks:
       - backend
     healthcheck:
