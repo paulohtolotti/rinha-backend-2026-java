@@ -17,8 +17,10 @@ public class SearchService {
     private byte[] labels;
 
     public SearchService() throws IOException {
-        vector = Files.readAllBytes(Path.of("src/main/resources/static/vectors.u8"));
-        labels = Files.readAllBytes(Path.of("src/main/resources/static/labels.u8"));
+        // Local vector = Files.readAllBytes(Path.of("src/main/resources/static/vectors.u8"));
+        // LOcal labels = Files.readAllBytes(Path.of("src/main/resources/static/labels.u8"));
+        vector = Files.readAllBytes(Path.of("/app/data/vectors.u8"));
+        labels = Files.readAllBytes(Path.of("/app/data/labels.u8"));
     }
     /**
      * Realiza o cálculo de similaridade entre os vetores e retorna o nº de fraudes
