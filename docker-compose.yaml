@@ -23,7 +23,7 @@ services:
     networks:
       - backend
     healthcheck:
-      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/8080' && exit 0 || exit 1"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/ready || exit 1"]
       interval: 30s
       timeout: 3s
       retries: 3
@@ -39,7 +39,7 @@ services:
     networks:
       - backend
     healthcheck:
-      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/8080' && exit 0 || exit 1"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/ready || exit 1"]
       interval: 30s
       timeout: 3s
       retries: 3
