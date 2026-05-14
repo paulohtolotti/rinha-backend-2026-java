@@ -7,6 +7,7 @@ RUN mvn package -DskipTests
 
 FROM eclipse-temurin:25-jre
 WORKDIR /app
+RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
 COPY --from=build /build/target/rinha-backend-2026-0.0.1-SNAPSHOT.jar app.jar
 RUN mkdir -p /app/data
 COPY src/main/resources/static/vectors.u8 /app/data/vectors.u8
