@@ -20,7 +20,6 @@ public class JsonToBinaryConverter {
                         new BufferedOutputStream(new FileOutputStream(labelOutputPath))
                 )
             ) {
-            System.out.println("Começando.");
             parser.nextToken();
             int i = 0, j = 0;
             while(parser.nextToken() != JsonToken.END_ARRAY) {
@@ -28,11 +27,8 @@ public class JsonToBinaryConverter {
                 readRecord(parser, vectorOut, labelOutput);
                 if(i % 10 == 0) {
                     j++;
-                    System.out.println(j +  ":" + " processei 10");
                 }
             }
-
-            System.out.println("Finalzido.");
         }
     }
 
