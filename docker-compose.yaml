@@ -26,8 +26,8 @@ services:
       test: ["CMD-SHELL", "wget -qO- http://localhost:8080/ready || exit 1"]
       interval: 30s
       timeout: 3s
-      retries: 3
-      start_period: 20s
+      retries: 5
+      start_period: 60s
     deploy:
       resources:
         limits:
@@ -35,15 +35,15 @@ services:
           memory: "160MB"
 
   api-2:
-    image: phpt/rinha-backend-2026:latest
+    image: phpt/rinha-backend-2026:v2
     networks:
       - backend
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:8080/ready || exit 1"]
       interval: 30s
       timeout: 3s
-      retries: 3
-      start_period: 20s
+      retries: 5
+      start_period: 60s
     deploy:
       resources:
         limits:
