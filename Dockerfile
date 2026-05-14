@@ -12,4 +12,4 @@ RUN mkdir -p /app/data
 COPY src/main/resources/static/vectors.u8 /app/data/vectors.u8
 COPY src/main/resources/static/labels.u8 /app/data/labels.u8
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Xms48m", "-Xmx64m","-XX:MaxMetaspaceSize=64m","-XX:+UseSerialGC","-XX:ReservedCodeCacheSize=32m","-XX:CompressedClassSpaceSize=32m","-Xss256k","-jar", "app.jar"]

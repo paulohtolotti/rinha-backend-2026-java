@@ -5,6 +5,8 @@ import com.pht.rinha_backend_2026.dto.Entry;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.PriorityQueue;
@@ -13,14 +15,17 @@ import java.util.PriorityQueue;
 @Service
 public class SearchService {
 
-    private byte[] vector;
-    private byte[] labels;
+    private ByteBuffer vector;
+    private ByteBuffer labels;
 
     public SearchService() throws IOException {
         // Local vector = Files.readAllBytes(Path.of("src/main/resources/static/vectors.u8"));
         // LOcal labels = Files.readAllBytes(Path.of("src/main/resources/static/labels.u8"));
-        vector = Files.readAllBytes(Path.of("/app/data/vectors.u8"));
-        labels = Files.readAllBytes(Path.of("/app/data/labels.u8"));
+        FileChannel vectorChannel = FileChannel.open(Path.of("/app/data/vectors.u8"));
+        vector = vectorChannel.map(FileChannel.MapMode.READ_ONLY, 0, vectorChannel.size());
+        FileChannel labelsChannel = FileChannel.open(Path.of("/app/data/labels.u8"));
+
+        labels = labelsChannel.map(FileChannel.MapMode.READ_ONLY, 0, labelsChannel.size());
     }
     /**
      * Realiza o cálculo de similaridade entre os vetores e retorna o nº de fraudes
@@ -32,10 +37,10 @@ public class SearchService {
 
         PriorityQueue<Entry> neigbhours = new PriorityQueue<>();
 
-        for(int i = 0; i < vector.length; i += 14) {
+        for(int i = 0; i < vector.limit(); i += 14) {
             manhattanDistance = 0;
             for(int j = 0; j < 14; j++) {
-                manhattanDistance += Math.abs( (int) (127 * incomingTransaction[j]) - vector[i + j]);
+                manhattanDistance += Math.abs( (int) (127 * incomingTransaction[j]) - vector.get(i + j));
             }
 
 
@@ -54,28 +59,9 @@ public class SearchService {
 
         int frauds = 0;
         for(var n : neigbhours) {
-            if (labels[n.index()] == DatasetConfig.LABEL_FRAUD) frauds++;
-
-            System.out.println("Distance: " + n.distance());
-            System.out.println("Index: " + n.index());
-            System.out.println("Label: " + labels[n.index()]);
-        }
-        System.out.println("Frauds: " + frauds);
-
-        System.out.println("===DEBUG===");
-        int totalFrauds = 0;
-        int totalLegits = 0;
-
-        for(byte b : labels) {
-            if(b == 0) totalLegits++;
-            else totalFrauds++;
+            if (labels.get(n.index()) == DatasetConfig.LABEL_FRAUD) frauds++;
         }
 
-        System.out.println("Legits: " + totalLegits);
-        System.out.println("Frauds: " + totalFrauds);
-
-        System.out.println("vector length" + vector.length);
-        System.out.println("label length" + labels.length);
         return frauds;
     }
 
