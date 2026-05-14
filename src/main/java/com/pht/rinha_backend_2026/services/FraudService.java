@@ -10,6 +10,8 @@ import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class FraudService {
@@ -22,8 +24,11 @@ public class FraudService {
 
     public FraudResponse fraudScore(FraudRequest request) {
         float[] arr = vectorize(request);
-        int i = searchService.numberOfFrauds(arr);
-        float fraudScore = (float) i / 5;
+        int frauds = CompletableFuture.supplyAsync(() -> searchService.numberOfFrauds(arr))
+                .orTimeout(1800, TimeUnit.MILLISECONDS)
+                .exceptionally(ex -> 0)
+                .join();
+        float fraudScore = (float) frauds / 5;
         boolean approved = fraudScore < 0.6;
         return new FraudResponse(approved, fraudScore);
     }
