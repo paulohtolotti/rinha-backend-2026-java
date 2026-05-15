@@ -13,6 +13,11 @@ services:
     networks:
       - backend
     deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 2s
+        max_attempts: 500
+        window: 5s
       resources:
         limits:
           cpus: "0.30"
@@ -29,6 +34,11 @@ services:
       retries: 5
       start_period: 60s
     deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 2s
+        max_attempts: 500
+        window: 5s
       resources:
         limits:
           cpus: "0.35"
@@ -45,6 +55,11 @@ services:
       retries: 5
       start_period: 60s
     deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 2s
+        max_attempts: 500
+        window: 5s
       resources:
         limits:
           cpus: "0.35"
